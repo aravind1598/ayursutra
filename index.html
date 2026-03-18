@@ -4,10 +4,7 @@
     <title>AyurSutra</title>
 
     <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-        }
+        body { margin: 0; font-family: Arial; }
 
         .sidebar {
             width: 200px;
@@ -18,27 +15,24 @@
             padding: 10px;
         }
 
-        .sidebar h2 {
-            text-align: center;
-        }
+        .sidebar h2 { text-align: center; }
 
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
+        .sidebar ul { list-style: none; padding: 0; }
 
         .sidebar ul li {
-            padding: 8px;
+            padding: 10px;
+            cursor: pointer;
         }
 
-        .sidebar ul li:hover {
-            background-color: #555;
-        }
+        .sidebar ul li:hover { background-color: #555; }
 
         .content {
             margin-left: 210px;
             padding: 20px;
         }
+
+        .section { display: none; }
+        .active { display: block; }
 
         .box {
             border: 1px solid #ccc;
@@ -58,44 +52,61 @@
 
 <body>
 
-    <div class="sidebar">
-        <h2>AyurSutra</h2>
-        <ul>
-            <li>Dashboard</li>
-            <li>Scheduling Calendar</li>
-            <li>Appointment Booking</li>
-            <li>Reports</li>
-        </ul>
-    </div>
+<div class="sidebar">
+    <h2>AyurSutra</h2>
+    <ul>
+        <li onclick="showPage('dashboard')">Dashboard</li>
+        <li onclick="showPage('calendar')">Scheduling Calendar</li>
+        <li onclick="showPage('booking')">Appointment Booking</li>
+        <li onclick="showPage('reports')">Reports</li>
+    </ul>
+</div>
 
-    <div class="content">
+<div class="content">
+
+    <div id="dashboard" class="section active">
         <h1>Dashboard</h1>
-
         <div class="box">
             <h3>Patient Dashboard</h3>
             <p>Patient details and history will be shown here.</p>
         </div>
+    </div>
 
+    <div id="calendar" class="section">
+        <h1>Scheduling Calendar</h1>
         <div class="box">
-            <h3>Scheduling Calendar</h3>
             <p>Therapy schedule details.</p>
         </div>
+    </div>
 
+    <div id="booking" class="section">
+        <h1>Appointment Booking</h1>
         <div class="box">
-            <h3>Appointment Booking</h3>
             <p>Book and manage appointments.</p>
         </div>
+    </div>
 
+    <div id="reports" class="section">
+        <h1>Reports & Analytics</h1>
         <div class="box">
-            <h3>Reports & Analytics</h3>
             <p>Reports and progress details.</p>
         </div>
-
     </div>
 
-    <div class="footer">
-        <p>Created by Aravindhan, Rithik Prathap</p>
-    </div>
+</div>
+
+<div class="footer">
+    <p>Created by Aravindhan, Rithik Prathap</p>
+</div>
+
+<script>
+function showPage(pageId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.classList.remove('active'));
+
+    document.getElementById(pageId).classList.add('active');
+}
+</script>
 
 </body>
 </html>
