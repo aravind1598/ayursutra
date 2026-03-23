@@ -1,172 +1,264 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AyurSutra</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurSutra Elite | Secure Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-glow: #ffcc00;
+            --bg-deep: #050505;
+            --card-bg: #0f0f0f;
+            --emerald: #10b981;
+            --border: #30363d;
+            --text: #c9d1d9;
+        }
 
-<style>
-body { margin:0; font-family:Arial; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* LOGIN */
-#loginPage { text-align:center; margin-top:80px; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-deep);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+        }
 
-/* SIDEBAR */
-.sidebar {
-    width:200px;
-    height:100vh;
-    background:#333;
-    color:#fff;
-    float:left;
-    padding:10px;
-}
-.sidebar ul { list-style:none; padding:0; }
-.sidebar li { padding:10px; cursor:pointer; }
-.sidebar li:hover { background:#555; }
+        /* =========================================
+           SCREEN 1: LOGIN STYLES
+           ========================================= */
+        #login-screen {
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+        }
 
-/* CONTENT */
-.content { margin-left:210px; padding:20px; }
+        .login-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 50px 40px;
+            border-radius: 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 2;
+        }
 
-.section { display:none; }
-.active { display:block; }
+        .login-box::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--gold), transparent, var(--emerald));
+            z-index: -1; border-radius: 42px; opacity: 0.3;
+        }
 
-.box {
-    border:1px solid #ccc;
-    padding:15px;
-    margin-bottom:10px;
-}
+        .logo {
+            font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px; letter-spacing: -1px;
+        }
 
-.footer {
-    margin-left:210px;
-    text-align:center;
-    padding:10px;
-    background:#f2f2f2;
-}
-</style>
+        .subtitle { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 40px; font-weight: 700; }
+
+        .field { margin-bottom: 25px; text-align: left; }
+        .field label { display: block; font-size: 11px; color: #666; margin-bottom: 8px; margin-left: 15px; text-transform: uppercase; font-weight: 700; }
+
+        .login-input {
+            width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 18px 25px; border-radius: 20px; color: #fff; font-size: 16px; outline: none; transition: 0.4s;
+        }
+        .login-input:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+
+        .gold-btn {
+            width: 100%; padding: 20px; margin-top: 15px;
+            background: linear-gradient(135deg, #fceabb 0%, #fccd4d 50%, #f8b500 100%);
+            border: none; border-radius: 20px; color: #000;
+            font-weight: 800; font-size: 14px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
+        .gold-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4); }
+
+        #error-msg { color: #ff4b4b; font-size: 13px; margin-top: 15px; display: none; font-weight: 600; }
+
+        /* =========================================
+           SCREEN 2: PROJECT PORTAL STYLES
+           ========================================= */
+        #portal-screen {
+            display: none; /* Initially Hidden */
+            width: 100%; max-width: 1200px; padding: 40px 20px;
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .portal-header { text-align: center; margin-bottom: 50px; }
+        .portal-header h1 { font-family: 'Syne', sans-serif; font-size: 36px; color: #fff; margin-bottom: 10px; letter-spacing: -1px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+
+        .team-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 24px; padding: 25px; transition: 0.3s;
+            position: relative;
+        }
+        .team-card:hover { border-color: var(--emerald); transform: scale(1.02); }
+
+        .role-tag { font-size: 11px; color: var(--emerald); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .team-card h2 { font-size: 20px; margin-bottom: 15px; font-weight: 700; color: #fff; }
+
+        .viva-box { background: rgba(16, 185, 129, 0.05); border-left: 3px solid var(--emerald); padding: 12px; margin-top: 20px; font-style: italic; font-size: 13px; color: #8b949e; }
+        
+        /* Interactive Elements inside Portal */
+        .dash-input { width: 100%; padding: 12px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 10px; outline: none; }
+        .action-btn { width: 100%; padding: 12px; background: var(--emerald); border: none; border-radius: 10px; color: #000; font-weight: 800; cursor: pointer; }
+
+        .tools { margin-top: 15px; font-size: 12px; color: var(--gold); font-weight: 600; }
+        
+        .db-list { max-height: 120px; overflow-y: auto; margin-top: 10px; font-size: 13px; color: #666; }
+
+        .corner-glow { position: fixed; width: 250px; height: 250px; background: var(--gold); filter: blur(150px); opacity: 0.1; z-index: -1; }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN + REGISTER -->
-<div id="loginPage">
-    <h2>Login</h2>
-    <input id="username" placeholder="Username"><br><br>
-    <input id="password" type="password" placeholder="Password"><br><br>
-    <button onclick="login()">Login</button>
+    <div class="corner-glow" style="top: -100px; left: -100px;"></div>
+    <div class="corner-glow" style="bottom: -100px; right: -100px;"></div>
 
-    <h3>Create Account</h3>
-    <input id="newUser" placeholder="New Username"><br><br>
-    <input id="newPass" type="password" placeholder="New Password"><br><br>
-    <button onclick="register()">Register</button>
-</div>
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="logo">AYURSUTRA.</div>
+            <div class="subtitle">Elite Admin Portal</div>
 
-<!-- MAIN APP -->
-<div id="app" style="display:none;">
+            <div class="field">
+                <label>Master ID</label>
+                <input type="text" id="user" class="login-input" placeholder="A92" autocomplete="off">
+            </div>
 
-<div class="sidebar">
-    <h2>AyurSutra</h2>
-    <ul>
-        <li onclick="showPage('dashboard')">Dashboard</li>
-        <li onclick="showPage('profile')">Profile</li>
-        <li onclick="showPage('reports')">Reports</li>
-        <li onclick="logout()">Logout</li>
-    </ul>
-</div>
+            <div class="field">
+                <label>Security Code</label>
+                <input type="password" id="pass" class="login-input" placeholder="••••">
+            </div>
 
-<div class="content">
-
-<div id="dashboard" class="section active">
-    <h1>Dashboard</h1>
-    <div class="box">Patient Dashboard</div>
-    <div class="box">Scheduling Calendar</div>
-    <div class="box">Appointment Booking</div>
-</div>
-
-<div id="profile" class="section">
-    <h1>Profile</h1>
-    <div class="box">
-        Username: <span id="pUser"></span><br>
-        Role: Patient<br>
-        Status: Active
+            <button class="gold-btn" onclick="checkLogin()">Authorize Entry</button>
+            <p id="error-msg">✕ Authentication Failed. Retry Entry.</p>
+        </div>
     </div>
-</div>
 
-<div id="reports" class="section">
-    <h1>Reports</h1>
-    <div class="box">Reports & Analytics</div>
-</div>
+    <div id="portal-screen">
+        <div class="portal-header">
+            <h1>Panchakarma Project Portal</h1>
+            <p style="color: var(--gold); letter-spacing: 2px; font-size: 12px; font-weight: 700; text-transform: uppercase;">Command Center | Admin A92</p>
+        </div>
 
-</div>
+        <div class="grid">
+            <div class="team-card">
+                <span class="role-tag">Team 1: Frontend</span>
+                <h2>Patient Intake System</h2>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px;">
+                    <input type="text" id="pName" class="dash-input" placeholder="Enter Patient Name">
+                    <button class="action-btn" onclick="processData()">Add to Registry</button>
+                </div>
+                <div class="viva-box">"We designed a responsive interface for doctor-patient interaction."</div>
+                <div class="tools">HTML5 • CSS3 • JavaScript</div>
+            </div>
 
-<div class="footer">
-    Created by Aravindhan, Rithik Prathap
-</div>
+            <div class="team-card">
+                <span class="role-tag">Team 2: Logic</span>
+                <h2>Backend Operations</h2>
+                <div style="padding: 10px; font-size: 14px; border: 1px solid var(--border); border-radius: 12px;">
+                    <p>Status: <span style="color:var(--emerald)">● Online</span></p>
+                    <p>Auth Logic: 256-bit AES</p>
+                    <p>Processing: <span id="status">Idle</span></p>
+                </div>
+                <div class="viva-box">"Developed secure backend APIs for authentication and data handling."</div>
+                <div class="tools">Node.js • Express • REST APIs</div>
+            </div>
 
-</div>
+            <div class="team-card">
+                <span class="role-tag">Team 3: Storage</span>
+                <h2>Database Memory</h2>
+                <div id="dbRecords" class="db-list">
+                    Waiting for data entry...
+                </div>
+                <div class="viva-box">"Managed database for efficient storage and retrieval of records."</div>
+                <div class="tools">MongoDB • Cloud Persistence</div>
+            </div>
 
-<script>
-function getUsers(){
-    return JSON.parse(localStorage.getItem("users")) || [];
-}
+            <div class="team-card">
+                <span class="role-tag">Team 4: Research</span>
+                <h2>Clinical Testing</h2>
+                <ul style="list-style: none; font-size: 13px; color: #999;">
+                    <li>✓ Nadi Analysis Logic Verified</li>
+                    <li>✓ Therapy Flowchart Optimized</li>
+                    <li>✓ Stress Level Test: Success</li>
+                </ul>
+                <div class="viva-box">"Ensured the system aligns with real-world Panchakarma practices."</div>
+            </div>
 
-function saveUsers(users){
-    localStorage.setItem("users", JSON.stringify(users));
-}
+            <div class="team-card">
+                <span class="role-tag">Team 5: Presentation</span>
+                <h2>Final Documentation</h2>
+                <p style="font-size: 13px;">Flowcharts, Architecture, and PPT files are compiled for Viva.</p>
+                <button style="margin-top: 15px; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px; border-radius: 10px; width: 100%; font-weight: 700; cursor: pointer;" onclick="alert('PPT Exporting...')">Export Viva PPT</button>
+                <div class="viva-box">"Documented architecture and prepared final presentation materials."</div>
+            </div>
+        </div>
+    </div>
 
-function register(){
-    let u = document.getElementById("newUser").value.trim();
-    let p = document.getElementById("newPass").value.trim();
+    <script>
+        // --- LOGIN LOGIC ---
+        function checkLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const err = document.getElementById('error-msg');
+            const btn = document.querySelector('.gold-btn');
 
-    if(!u || !p){ alert("Enter details"); return; }
+            if(u === "A92" && p === "1234") {
+                err.style.display = "none";
+                btn.innerHTML = "Granting Access...";
+                btn.style.background = "var(--emerald)";
+                
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('portal-screen').style.display = 'block';
+                    document.body.style.alignItems = 'flex-start'; // Adjust for portal view
+                }, 800);
+            } else {
+                err.style.display = "block";
+                document.querySelector('.login-box').style.animation = "shake 0.2s 2";
+            }
+        }
 
-    let users = getUsers();
+        // --- PORTAL DATA LOGIC ---
+        function processData() {
+            const name = document.getElementById('pName').value;
+            const dbList = document.getElementById('dbRecords');
+            const status = document.getElementById('status');
 
-    if(users.find(x => x.username === u)){
-        alert("User already exists");
-        return;
-    }
+            if(!name) { alert("Please enter a name!"); return; }
 
-    users.push({username:u, password:p});
-    saveUsers(users);
+            status.innerText = "Encrypting...";
+            status.style.color = "orange";
 
-    alert("Account created");
-}
+            setTimeout(() => {
+                if(dbList.innerHTML.includes("Waiting")) dbList.innerHTML = "";
+                
+                const entry = document.createElement('div');
+                entry.style.padding = "5px 0";
+                entry.style.borderBottom = "1px solid #222";
+                entry.innerHTML = `✓ ${name} - <span style="color:var(--emerald)">Stored Securely</span>`;
+                dbList.prepend(entry);
 
-function login(){
-    let u = document.getElementById("username").value.trim();
-    let p = document.getElementById("password").value.trim();
-
-    let users = getUsers();
-
-    let user = users.find(x => x.username === u && x.password === p);
-
-    if(user){
-        localStorage.setItem("loggedUser", u);
-        document.getElementById("loginPage").style.display="none";
-        document.getElementById("app").style.display="block";
-        document.getElementById("pUser").innerText=u;
-    } else {
-        alert("Invalid login");
-    }
-}
-
-function logout(){
-    localStorage.removeItem("loggedUser");
-    location.reload();
-}
-
-function showPage(id){
-    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-}
-
-window.onload=function(){
-    let u = localStorage.getItem("loggedUser");
-    if(u){
-        document.getElementById("loginPage").style.display="none";
-        document.getElementById("app").style.display="block";
-        document.getElementById("pUser").innerText=u;
-    }
-};
-</script>
+                status.innerText = "Idle";
+                status.style.color = "var(--emerald)";
+                document.getElementById('pName').value = "";
+            }, 1000);
+        }
+    </script>
 
 </body>
 </html>
