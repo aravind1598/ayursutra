@@ -159,7 +159,7 @@
 
         <div class="main-content">
             <div class="welcome-section" style="margin-bottom: 30px;">
-                <h1 id="user-greeting">Namaste, Admin</h1>
+                <h1 id="user-greeting">Welcome, Admin</h1>
                 <p style="color: #7f8c8d;">Sanctuary is currently balanced.</p>
             </div>
 
@@ -205,9 +205,9 @@
                             <tr><th>Seeker</th><th>Dosha</th><th>Treatment</th><th>Status</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><b>Arun Kumar</b></td><td>Pitta-Vata</td><td>Shinasadhara</td><td><span class="status-tag">Active</span></td></tr>
-                            <tr><td><b>Meera Nair</b></td><td>Kapha</td><td>Udvartana</td><td><span class="status-tag">Active</span></td></tr>
-                            <tr><td><b>Suresh Raina</b></td><td>Vata</td><td>Abhyanga</td><td><span class="status-tag" style="background:#eee; color:#666;">Pending</span></td></tr>
+                            <tr><td><b>Harish</b></td><td>Pitta-Vata</td><td>Shinasadhara</td><td><span class="status-tag">Active</span></td></tr>
+                            <tr><td><b>Ranjith</b></td><td>Kapha</td><td>Udvartana</td><td><span class="status-tag">Active</span></td></tr>
+                            <tr><td><b>tharaneesh kumar</b></td><td>Vata</td><td>Abhyanga</td><td><span class="status-tag" style="background:#eee; color:#666;">Pending</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -225,7 +225,7 @@
                     
                     <div class="footer-col contact-info">
                         <h4>CONTACT DETAILS</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> 108, Divine St, Kerala, India</p>
+                        <p><i class="fas fa-map-marker-alt"></i> BIT sathyyamagalam, erode, India</p>
                         <p><i class="fas fa-phone-alt"></i> +91 98765 43210</p>
                         <p><i class="fas fa-globe"></i> www.ayursutra.com</p>
                     </div>
@@ -272,7 +272,7 @@
             if(u === localStorage.getItem('ayurUser') && p === localStorage.getItem('ayurPass')) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('dashboard-screen').style.display = 'block';
-                document.getElementById('user-greeting').innerText = `Namaste, ${u}`;
+                document.getElementById('user-greeting').innerText = `welcome, ${u}`;
                 createLeaves();
             } else { alert("Access Denied!"); }
         }
