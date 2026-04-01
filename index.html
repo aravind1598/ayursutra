@@ -29,10 +29,11 @@
             padding: 50px 40px; border-radius: 40px; width: 90%; max-width: 420px;
             text-align: center; box-shadow: 0 25px 50px rgba(27, 67, 50, 0.1);
         }
-        input { width: 100%; background: white; border: 1.5px solid #eee; padding: 16px 20px; border-radius: 15px; outline: none; margin-bottom: 15px; }
+        input { width: 100%; background: white; border: 1.5px solid #eee; padding: 16px 20px; border-radius: 15px; outline: none; margin-bottom: 15px; font-family: inherit; }
         .btn-primary { width: 100%; padding: 18px; background: var(--ayur-green); border: none; border-radius: 15px; color: white; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { background: var(--leaf-green); transform: translateY(-2px); }
 
-        /* --- SIDEBAR (OLD STYLE RESTORED) --- */
+        /* --- DASHBOARD LAYOUT --- */
         #dashboard-screen { display: none; }
         
         .sidebar { 
@@ -75,7 +76,7 @@
             border-left: 4px solid var(--gold-accent);
         }
 
-        .main-content { margin-left: var(--sidebar-width); padding: 40px; position: relative; }
+        .main-content { margin-left: var(--sidebar-width); padding: 40px; position: relative; min-height: 100vh; }
 
         /* --- DASHBOARD WIDGETS --- */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
@@ -83,32 +84,32 @@
         
         .dosha-container { background: white; padding: 30px; border-radius: 24px; margin-bottom: 40px; }
         .dosha-bar { height: 8px; background: #eee; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .fill { height: 100%; }
+        .fill { height: 100%; transition: width 1s ease-in-out; }
 
         .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 60px;}
         .grid-item { background: white; padding: 30px; text-align: center; border-radius: 20px; border: 1px solid #eee; transition: 0.3s; cursor: pointer; }
-        .grid-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .grid-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--leaf-green); }
         .grid-item i { font-size: 28px; color: var(--leaf-green); margin-bottom: 10px; display: block; }
 
-        /* --- SCROLLABLE DETAILS & ANIMATION --- */
+        /* --- ANIMATIONS --- */
         .extra-section { position: relative; padding-top: 20px; }
-        
-        .bg-leaves { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; overflow: hidden; }
-        .leaf { position: absolute; animation: float 12s infinite linear; font-size: 40px; color: var(--leaf-green); }
+        .bg-leaves { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.1; overflow: hidden; }
+        .leaf { position: absolute; animation: float 12s infinite linear; font-size: 30px; color: var(--leaf-green); }
 
         @keyframes float {
-            0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100%) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
+        /* --- TABLES --- */
         .data-table-container { background: white; padding: 35px; border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); margin-bottom: 50px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { text-align: left; padding: 15px; background: #f8f9fa; color: var(--ayur-green); font-size: 13px; text-transform: uppercase; }
         td { padding: 15px; border-bottom: 1px solid #eee; font-size: 14px; }
         .status-tag { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #e8f5e9; color: #2e7d32; }
 
-        /* FOOTER / CONTACT */
+        /* FOOTER */
         .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding: 60px 0; border-top: 1px solid #eee; }
         .footer-col h4 { color: var(--ayur-green); margin-bottom: 20px; font-family: 'Syne'; }
         .contact-info p { margin-bottom: 12px; color: #666; font-size: 14px; display: flex; align-items: center; }
@@ -123,26 +124,31 @@
         }
         .social-links a:hover { background: var(--ayur-green); color: white; transform: translateY(-3px); }
 
+        /* MODAL */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 450px; }
+        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 450px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="auth-screen">
         <div class="auth-box" id="login-form">
-            <h2 style="font-family:'Syne'; color: var(--ayur-green); margin-bottom:30px;">AYURSUTRA</h2>
-            <input type="text" id="login-user" placeholder="Access Code">
-            <input type="password" id="login-pass" placeholder="Security Key">
+            <h2 style="font-family:'Syne'; color: var(--ayur-green); margin-bottom:10px;">AYURSUTRA</h2>
+            <p style="margin-bottom: 30px; font-size: 13px; color: #888;">Enter the sanctuary of healing</p>
+            <input type="text" id="login-user" placeholder="Access Code (Username)">
+            <input type="password" id="login-pass" placeholder="Security Key (Password)">
             <button class="btn-primary" onclick="handleLogin()">ENTER PORTAL</button>
-            <p onclick="toggleAuth()" style="margin-top:20px; font-size:14px; cursor:pointer; color: #666;">New? <b>Create Account</b></p>
+            <p onclick="toggleAuth()" style="margin-top:20px; font-size:14px; cursor:pointer; color: #666;">New seeker? <b>Create Account</b></p>
         </div>
+
         <div class="auth-box" id="signup-form" style="display:none;">
-            <h2 style="font-family:'Syne'; color: var(--ayur-green); margin-bottom:30px;">REGISTER</h2>
+            <h2 style="font-family:'Syne'; color: var(--ayur-green); margin-bottom:10px;">REGISTER</h2>
+            <p style="margin-bottom: 30px; font-size: 13px; color: #888;">Begin your Ayurvedic journey</p>
             <input type="text" id="reg-user" placeholder="Choose Access Code">
             <input type="password" id="reg-pass" placeholder="Choose Security Key">
             <button class="btn-primary" onclick="handleSignup()">SIGN UP</button>
-            <p onclick="toggleAuth()" style="margin-top:20px; font-size:14px; cursor:pointer; color: #666;">Have account? <b>Login</b></p>
+            <p onclick="toggleAuth()" style="margin-top:20px; font-size:14px; cursor:pointer; color: #666;">Already a member? <b>Login</b></p>
         </div>
     </div>
 
@@ -153,14 +159,14 @@
                 <a href="#" class="nav-item active"><i class="fas fa-th-large"></i> Overview</a>
                 <a href="#patient-section" class="nav-item"><i class="fas fa-user-injured"></i> Seeker Data</a>
                 <a href="#contact-section" class="nav-item"><i class="fas fa-phone-alt"></i> Contact Us</a>
-                <a href="#" class="nav-item" onclick="location.reload()" style="margin-top: 100px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="#" class="nav-item" onclick="logout()" style="margin-top: auto; margin-bottom: 20px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>
 
         <div class="main-content">
             <div class="welcome-section" style="margin-bottom: 30px;">
-                <h1 id="user-greeting">Welcome, Admin</h1>
-                <p style="color: #7f8c8d;">Sanctuary is currently balanced.</p>
+                <h1 id="user-greeting">Welcome, Seeker</h1>
+                <p style="color: #7f8c8d;">Your sanctuary is currently in balance.</p>
             </div>
 
             <div class="stats-grid">
@@ -207,7 +213,7 @@
                         <tbody>
                             <tr><td><b>Harish</b></td><td>Pitta-Vata</td><td>Shinasadhara</td><td><span class="status-tag">Active</span></td></tr>
                             <tr><td><b>Ranjith</b></td><td>Kapha</td><td>Udvartana</td><td><span class="status-tag">Active</span></td></tr>
-                            <tr><td><b>tharaneesh kumar</b></td><td>Vata</td><td>Abhyanga</td><td><span class="status-tag" style="background:#eee; color:#666;">Pending</span></td></tr>
+                            <tr><td><b>Tharaneesh</b></td><td>Vata</td><td>Abhyanga</td><td><span class="status-tag" style="background:#eee; color:#666;">Pending</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -225,7 +231,7 @@
                     
                     <div class="footer-col contact-info">
                         <h4>CONTACT DETAILS</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> BIT sathyyamagalam, erode, India</p>
+                        <p><i class="fas fa-map-marker-alt"></i> BIT Sathyamangalam, Erode, India</p>
                         <p><i class="fas fa-phone-alt"></i> +91 98765 43210</p>
                         <p><i class="fas fa-globe"></i> www.ayursutra.com</p>
                     </div>
@@ -245,65 +251,113 @@
 
     <div class="modal" id="dataModal">
         <div class="modal-box">
-            <h2 id="m-title" style="color:var(--ayur-green); margin-bottom:20px;"></h2>
+            <h2 id="m-title" style="color:var(--ayur-green); margin-bottom:20px; font-family:'Syne';"></h2>
             <div id="m-body"></div>
-            <button onclick="closeModal()" style="margin-top:30px; width:100%; padding:15px; background:var(--ayur-green); color:white; border:none; border-radius:12px; cursor:pointer;">Close</button>
+            <button onclick="closeModal()" style="margin-top:30px; width:100%; padding:15px; background:var(--ayur-green); color:white; border:none; border-radius:12px; cursor:pointer; font-weight: bold;">CLOSE CHAMBER</button>
         </div>
     </div>
 
     <script>
+        // --- DATA PERSISTENCE LOGIC ---
+        
+        // Retrieve users from local storage or create an empty object
+        function getUsers() {
+            const users = localStorage.getItem('ayurUsers');
+            return users ? JSON.parse(users) : {};
+        }
+
         function toggleAuth() {
-            document.getElementById('login-form').style.display = document.getElementById('login-form').style.display === 'none' ? 'block' : 'none';
-            document.getElementById('signup-form').style.display = document.getElementById('signup-form').style.display === 'none' ? 'block' : 'none';
+            const login = document.getElementById('login-form');
+            const signup = document.getElementById('signup-form');
+            login.style.display = login.style.display === 'none' ? 'block' : 'none';
+            signup.style.display = signup.style.display === 'none' ? 'block' : 'none';
         }
 
         function handleSignup() {
-            const u = document.getElementById('reg-user').value;
-            const p = document.getElementById('reg-pass').value;
+            const u = document.getElementById('reg-user').value.trim();
+            const p = document.getElementById('reg-pass').value.trim();
+            
             if(u && p) {
-                localStorage.setItem('ayurUser', u); localStorage.setItem('ayurPass', p);
-                alert("Registration Successful!"); toggleAuth();
+                let users = getUsers();
+                
+                if(users[u]) {
+                    alert("This seeker name is already registered!");
+                    return;
+                }
+
+                // Add user to the registry
+                users[u] = p; 
+                localStorage.setItem('ayurUsers', JSON.stringify(users));
+                
+                alert("Registration Successful! Please login.");
+                document.getElementById('reg-user').value = "";
+                document.getElementById('reg-pass').value = "";
+                toggleAuth();
+            } else {
+                alert("Please fill in both fields.");
             }
         }
 
         function handleLogin() {
-            const u = document.getElementById('login-user').value;
-            const p = document.getElementById('login-pass').value;
-            if(u === localStorage.getItem('ayurUser') && p === localStorage.getItem('ayurPass')) {
+            const u = document.getElementById('login-user').value.trim();
+            const p = document.getElementById('login-pass').value.trim();
+            const users = getUsers();
+
+            // Check if user exists and password matches
+            if(users[u] && users[u] === p) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('dashboard-screen').style.display = 'block';
-                document.getElementById('user-greeting').innerText = `welcome, ${u}`;
+                document.getElementById('user-greeting').innerText = `Welcome, ${u}`;
                 createLeaves();
-            } else { alert("Access Denied!"); }
+            } else { 
+                alert("Invalid Access Code or Security Key!"); 
+            }
         }
+
+        function logout() {
+            location.reload();
+        }
+
+        // --- UI & DASHBOARD LOGIC ---
 
         function createLeaves() {
             const container = document.getElementById('leaf-container');
-            for(let i=0; i<12; i++) {
+            for(let i=0; i<15; i++) {
                 const leaf = document.createElement('i');
                 leaf.className = 'fas fa-leaf leaf';
                 leaf.style.left = Math.random() * 100 + '%';
-                leaf.style.animationDelay = Math.random() * 8 + 's';
+                leaf.style.animationDelay = (Math.random() * 10) + 's';
+                leaf.style.fontSize = (Math.random() * 20 + 10) + 'px';
                 container.appendChild(leaf);
             }
         }
 
         const db = {
-            "Panchakarma": { "Lead": "Dr. Varma", "Rooms": "08", "Status": "Active" },
-            "Yoga Lab": { "Instructor": "Yogi Shiva", "Mats": "25", "Live": "Yes" },
-            "Pharmacy": { "Herbs": "120+", "Oils": "45 Stocked", "Status": "Full" },
-            "Urgent Care": { "Vaidya": "On Call", "Beds": "05", "Status": "Ready" }
+            "Panchakarma": { "Lead": "Dr. Varma", "Rooms": "08", "Status": "Active", "Oxygen Level": "Optimal" },
+            "Yoga Lab": { "Instructor": "Yogi Shiva", "Mats": "25", "Live": "Yes", "Next Session": "05:00 PM" },
+            "Pharmacy": { "Herbs": "120+", "Oils": "45 Stocked", "Status": "Full", "Suppliers": "Local Organic" },
+            "Urgent Care": { "Vaidya": "On Call", "Beds": "05", "Status": "Ready", "Emergency": "0 Available" }
         };
 
         function openRecords(title) {
             document.getElementById('m-title').innerText = title;
             let html = ""; const data = db[title];
-            for(let key in data) { html += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;"><b>${key}</b><span>${data[key]}</span></div>`; }
+            for(let key in data) { 
+                html += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #eee;">
+                            <b style="color:#666;">${key}</b>
+                            <span style="color:var(--ayur-green); font-weight:600;">${data[key]}</span>
+                         </div>`; 
+            }
             document.getElementById('m-body').innerHTML = html;
             document.getElementById('dataModal').style.display = 'flex';
         }
 
         function closeModal() { document.getElementById('dataModal').style.display = 'none'; }
+
+        // Close modal when clicking outside box
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('dataModal')) closeModal();
+        }
     </script>
 </body>
 </html>
